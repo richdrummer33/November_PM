@@ -8,6 +8,8 @@ public class FireballLauncher : MonoBehaviour
 
     public float force = 20f;
 
+    public string triggerAxisName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +19,7 @@ public class FireballLauncher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0)) // Check LMB pressed 
+        if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetAxis(triggerAxisName) > 0.25f) // Check LMB pressed 
         {
             GameObject fireballInstance; // New gameObject empty variable 
 
