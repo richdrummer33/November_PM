@@ -30,6 +30,8 @@ public class TrackpadLocomotion : MonoBehaviour
         Vector3 rigPosition = xrRig.position; // Store temporarily the current position of the rig
         rigPosition.y = height;
         xrRig.position = rigPosition;
+
+        // xrRig.position.y = height; // Set the height of the rig
     }
 
     private float GetGroundHeight() // This is a like a calculator that returns a number (hieght of ground)
