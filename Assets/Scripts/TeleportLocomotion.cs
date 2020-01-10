@@ -36,9 +36,14 @@ public class TeleportLocomotion : MonoBehaviour
         }
         if(Input.GetButtonUp(teleportButtonName)) // Released button, attempt teleport
         {
-            laserLine.enabled = false;
+            // Calculate offset then apply to the rig's position
+            Vector3 offset = xrRig.position - Camera.main.transform.position;
 
-            xrRig.position = teleportPosition; // Need to move the XR rig to the teleportPosition
+            offset.y = 0f; // No movement in the vertical direction 
+
+            xrRig.position = teleportPosition + offset; // Need to move the XR rig to the teleportPosition
+            
+            laserLine.enabled = false;
         }
     }
 }
