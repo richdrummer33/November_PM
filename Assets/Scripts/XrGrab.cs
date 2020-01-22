@@ -17,7 +17,9 @@ public class XrGrab : MonoBehaviour
     FixedJoint thisGrabJoint;
 
     Vector3 lastPosition; // To calculate velocity with
-    Vector3 velocity; 
+    Vector3 velocity;
+
+    public string triggerAxisName;
 
     // To detect what I'm grabbing
     private void OnTriggerEnter(Collider other)
@@ -69,6 +71,25 @@ public class XrGrab : MonoBehaviour
 
             handIsClosed = false;
         }
+        #endregion
+
+        #region Interact
+
+        if (Input.GetAxis(triggerAxisName) > 0.25f)
+        {
+            if(heldObject != null) // Check we are holding an object
+            {
+                heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver); 
+            }
+        }
+        else if (Input.GetAxis(triggerAxisName) < 0.25f)
+        {
+            if (heldObject != null)
+            {
+                heldObject.SendMessage("StopInteract", SendMessageOptions.DontRequireReceiver);
+            }
+        }
+
         #endregion
 
         velocity = (transform.position - lastPosition) / Time.deltaTime;

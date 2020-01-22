@@ -12,22 +12,29 @@ public class ArInstructionsController : MonoBehaviour
 
     private void OnEnable() // This runs when this game objects becomes enables
     {
-        currentStepIndex = 0; // To be safe
+        currentStepIndex = 0; // Select the 1st step
 
-        steps[currentStepIndex].SetActive(true);
+        steps[currentStepIndex].SetActive(true); // Enable the 1st step 
 
         taskSelectionCanvas.SetActive(false);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // A method for the "Next Step"  button
+    public void NextStep()
     {
-        
-    }
+        steps[currentStepIndex].SetActive(false); // Disable current step
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        currentStepIndex = currentStepIndex + 1; // Increment the step index (count)
+
+        if(currentStepIndex < steps.Count) // Check the index is not > than the list size
+        {
+            steps[currentStepIndex].SetActive(true); // Enable the nexct step
+        }
+        else // We finished all instructions
+        {
+            taskSelectionCanvas.SetActive(true); // So user can select another task!
+
+            gameObject.SetActive(false); // Disable this* object
+        }
     }
 }

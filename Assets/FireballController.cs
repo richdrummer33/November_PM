@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FireballController : MonoBehaviour
 {
+
     // Start is called before the first frame update
     void Start()
     {
