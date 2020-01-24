@@ -107,9 +107,9 @@ public class XrGrab : MonoBehaviour
 
         thisGrabJoint.connectedBody = collidingObject.GetComponent<Rigidbody>();
 
-        thisGrabJoint.breakForce = 500f; // Can change this value as you like
+        thisGrabJoint.breakForce = 1000f; // Can change this value as you like
 
-        thisGrabJoint.breakTorque = 500f;
+        thisGrabJoint.breakTorque = 1000f;
 
         heldObject = collidingObject; // "Remember" what we;re holding, so we know what to release on Mouse Up
     }
