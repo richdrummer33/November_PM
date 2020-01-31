@@ -10,7 +10,7 @@ public class CubeDestroyer : MonoBehaviour
         {
             GameManager._instance.CountCubeDestroyed(); // Tally of how many objects are destroyed - GameManager
 
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
         }
     }
 }
