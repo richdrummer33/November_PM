@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractablePaintbrush : MonoBehaviour
+public class InteractablePaintbrush : InteractableObject
 {
     public GameObject paintTrailPrefab;
 
@@ -22,8 +22,10 @@ public class InteractablePaintbrush : MonoBehaviour
         }
     }
 
-    public void Interact() // To paint: Will run when pulling the trigger on controller
+    public override void Interact() // To paint: Will run when pulling the trigger on controller
     {
+        base.Interact();
+
         if(paintTrailInstance == null) // Then create a trail!
         {
             paintTrailInstance = Instantiate(paintTrailPrefab, paintBrushRenderer.transform.position, Quaternion.identity, paintBrushRenderer.transform); // Paint trail child of brush - will; follow
@@ -32,8 +34,10 @@ public class InteractablePaintbrush : MonoBehaviour
         }
     }
 
-    public void StopInteract() // To stop painting: Will run when trigger is released
+    public override void StopInteract() // To stop painting: Will run when trigger is released
     {
+        base.StopInteract();
+
         if(paintTrailInstance != null) // Just in case
         {
             paintTrailInstance.transform.parent = null; // Parentless 

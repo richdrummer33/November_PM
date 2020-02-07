@@ -29,7 +29,15 @@ public class XrGrab : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        collidingObject = null; // Forget the obj we were toucing
+        if (collidingObject != null)
+        {
+            collidingObject.SendMessage("Release", SendMessageOptions.DontRequireReceiver); // Attempt every time!
+
+            if (other.gameObject == collidingObject)
+            {
+                collidingObject = null; // Forget the obj we were toucing
+            }
+        }
     }
 
     // Start is called before the first frame update
@@ -52,7 +60,12 @@ public class XrGrab : MonoBehaviour
 
             if (collidingObject != null)
             {
-                Grab();
+                if (collidingObject.GetComponent<Rigidbody>() && collidingObject.tag.Contains("Grabbable"))
+                {
+                    Grab();
+                }
+
+                collidingObject.SendMessage("Grab", transform, SendMessageOptions.DontRequireReceiver);
             }
 
             handIsClosed = true; // Taking note that we just closed the hand
@@ -69,6 +82,11 @@ public class XrGrab : MonoBehaviour
                 Release();
             }
 
+            if (collidingObject != null)
+            {
+                collidingObject.SendMessage("Release", SendMessageOptions.DontRequireReceiver);
+            }
+
             handIsClosed = false;
         }
         #endregion
@@ -79,7 +97,9 @@ public class XrGrab : MonoBehaviour
         {
             if(heldObject != null) // Check we are holding an object
             {
-                heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver); 
+                heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                
+                //GetComponent<InteractableObject>().Interact();
             }
         }
         else if (Input.GetAxis(triggerAxisName) < 0.25f)
@@ -87,6 +107,8 @@ public class XrGrab : MonoBehaviour
             if (heldObject != null)
             {
                 heldObject.SendMessage("StopInteract", SendMessageOptions.DontRequireReceiver);
+
+                // GetComponent<InteractableObject>().StopInteract();
             }
         }
 
@@ -99,9 +121,10 @@ public class XrGrab : MonoBehaviour
 
     void Grab()
     {
-        //collidingObject.GetComponent<Rigidbody>().isKinematic = true; // Disable ability for external forces to move this object
-
-        collidingObject.transform.SetParent(this.transform); // Makes collidingObj child of hand to follow it
+        if (collidingObject.tag == "Grabbable") // Normal regular grabbable (perhaps better name is "GrabbableObject")
+        {
+            collidingObject.transform.SetParent(this.transform); // Makes collidingObj child of hand to follow it
+        }
 
         thisGrabJoint = gameObject.AddComponent<FixedJoint>(); // Actually creates the component on this game object
 
@@ -117,8 +140,13 @@ public class XrGrab : MonoBehaviour
     void Release()
     {
         //heldObject.GetComponent<Rigidbody>().isKinematic = false; // From original grab implementation
-
-        heldObject.transform.SetParent(null);
+        if (heldObject != null)
+        {
+            if (heldObject.tag == "Grabbable")
+            {
+                heldObject.transform.SetParent(null);
+            }
+        }
 
         if (thisGrabJoint != null)
             Destroy(thisGrabJoint);
