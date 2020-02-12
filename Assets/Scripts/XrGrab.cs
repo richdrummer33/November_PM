@@ -31,7 +31,10 @@ public class XrGrab : MonoBehaviour
     {
         if (collidingObject != null)
         {
-            collidingObject.SendMessage("Release", SendMessageOptions.DontRequireReceiver); // Attempt every time!
+            //collidingObject.SendMessage("Release", SendMessageOptions.DontRequireReceiver); // Attempt every time!
+
+            if (collidingObject.GetComponent<InteractableObject>())
+                collidingObject.GetComponent<InteractableObject>().Release();
 
             if (other.gameObject == collidingObject)
             {
@@ -60,12 +63,15 @@ public class XrGrab : MonoBehaviour
 
             if (collidingObject != null)
             {
-                if (collidingObject.GetComponent<Rigidbody>() && collidingObject.tag.Contains("Grabbable"))
+                if (collidingObject.GetComponent<Rigidbody>() && collidingObject.tag.Contains("Grabbable")) // Check its a "pickupable" obj
                 {
                     Grab();
                 }
 
-                collidingObject.SendMessage("Grab", transform, SendMessageOptions.DontRequireReceiver);
+                if (collidingObject.GetComponent<InteractableObject>())
+                    collidingObject.GetComponent<InteractableObject>().Grab(transform);
+
+                //collidingObject.SendMessage("Grab", transform, SendMessageOptions.DontRequireReceiver);
             }
 
             handIsClosed = true; // Taking note that we just closed the hand
@@ -79,12 +85,10 @@ public class XrGrab : MonoBehaviour
 
             if (heldObject != null)
             {
-                Release();
-            }
+                if (heldObject.GetComponent<InteractableObject>())
+                    heldObject.GetComponent<InteractableObject>().Release();
 
-            if (collidingObject != null)
-            {
-                collidingObject.SendMessage("Release", SendMessageOptions.DontRequireReceiver);
+                Release();
             }
 
             handIsClosed = false;
@@ -97,18 +101,20 @@ public class XrGrab : MonoBehaviour
         {
             if(heldObject != null) // Check we are holding an object
             {
-                heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
-                
-                //GetComponent<InteractableObject>().Interact();
+                if (heldObject.GetComponent<InteractableObject>())
+                    heldObject.GetComponent<InteractableObject>().Interact();
+
+                //heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
             }
         }
         else if (Input.GetAxis(triggerAxisName) < 0.25f)
         {
             if (heldObject != null)
             {
-                heldObject.SendMessage("StopInteract", SendMessageOptions.DontRequireReceiver);
+                if (heldObject.GetComponent<InteractableObject>())
+                    heldObject.GetComponent<InteractableObject>().StopInteract();
 
-                // GetComponent<InteractableObject>().StopInteract();
+                //heldObject.SendMessage("StopInteract", SendMessageOptions.DontRequireReceiver);
             }
         }
 

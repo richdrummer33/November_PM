@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PivotLeverController : MonoBehaviour
+public class PivotLeverController : InteractableObject
 {
     public Transform upperLimit, lowerLimit;
 
@@ -50,13 +50,17 @@ public class PivotLeverController : MonoBehaviour
         pivotPoint.LookAt(lookPosition);
     }
 
-    void Grab(Transform hand)
+    public override void Grab(Transform hand)
     {
+        base.Grab(hand);
+
         playerHand = hand;
     }
 
-    void Release()
+    public override void Release()
     {
+        base.Release();
+
         playerHand = null;
     }
 }

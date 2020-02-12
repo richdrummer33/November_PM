@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlidingLeverController : MonoBehaviour
+public class SlidingLeverController : InteractableObject
 {
     public Transform upperLimit, lowerLimit;
 
@@ -34,19 +34,17 @@ public class SlidingLeverController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public override void Grab(Transform hand)
     {
-        if(other.GetComponent<XrGrab>())
-        {
-            playerHand = other.transform;
-        }
+        base.Grab(hand);
+
+        playerHand = hand;
     }
 
-    private void OnTriggerExit(Collider other)
+    public override void Release()
     {
-        if (other.GetComponent<XrGrab>())
-        {
-            playerHand = null;
-        }
+        base.Release();
+
+        playerHand = null;
     }
 }

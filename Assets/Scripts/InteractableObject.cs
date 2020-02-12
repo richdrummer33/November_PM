@@ -19,6 +19,11 @@ public class InteractableObject : MonoBehaviour
         Debug.Log("Grab method was called");
     }
 
+    public virtual void Grab(Transform hand)
+    {
+        Debug.Log("Grab method was called and grabbed by " + hand.name);
+    }
+
     public virtual void Release()
     {
         Debug.Log("Release method was called");
