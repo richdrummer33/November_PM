@@ -1,5 +1,7 @@
 This is Richard's project!
 
+**NOTE FOR SELF: CHARACTER CONTROLLER, ANIM BLEND TREES AND LIGHTING SCENE**
+
 After every lesson I will push updates to the git repository.
 
 After you have cloned my repository (git's version of downloading a project) as I desribed in the tutorial video, you can at any time update your version of the repository. Typically you would do this after each lesson. To do this:
